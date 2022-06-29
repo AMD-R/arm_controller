@@ -1,0 +1,11 @@
+float32 dist_x
+float32 dist_y
+float32 dist_z
+int16 rpm_y
+int16 rpm_z
+bool cmd_x
+---
+bool resultArm
+int8 status
+
+

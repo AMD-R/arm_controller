@@ -1,0 +1,6 @@
+bool resultVision
+---
+float64 x
+float64 y
+bool z
+bool isActive

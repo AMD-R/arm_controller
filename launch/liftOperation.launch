@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="rosserial_arduino" type="serial_node.py" name="arm_serial" >
+        <param name="port" value="/dev/serial/by-id/usb-STMicroelectronics_BLUEPILL_F103C8_CDC_in_FS_Mode_6D780F6A4955-if00"/>
+        <param name="baud" value="57600"/>
+    </node>
+    <node name="controller" pkg="arm_controller" type="controller.py" />
+    <node name="Nav" pkg="arm_controller" type="Nav.py" />
+    <node name="oakd" pkg="arm_controller" type="oakd.py" />
+</launch>
