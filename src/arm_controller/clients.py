@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 import time
-from arm_controller.srv import *
+from arm_controller.srv import Vision, Arm, Nav, HMI, Stop, buttonStatus
 from std_msgs.msg import Float32, Int16
 
 NAMESPACE = "/arm"
@@ -9,10 +9,11 @@ NAMESPACE = "/arm"
 SERVICE_CMD = NAMESPACE + "/arm_cmd"
 SERVICE_STOP = NAMESPACE + "/x_stop"
 
+
 def clientVision(resultVision: bool):
     """Service proxy for Vision (OAK-D-LITE)."""
     rate = rospy.Rate(1)
-    try:        
+    try:
         global visionResp
 
         rospy.wait_for_service('Vision')
@@ -86,6 +87,7 @@ def clientStop():
     except rospy.ServiceException as e:
         print("Service call failed: %s" % e)
 
+
 def clientButton():
     """Service proxy for buttonStatus."""
     rate = rospy.Rate(1)
@@ -98,7 +100,7 @@ def clientButton():
         buttonResp = service(True)
         rate.sleep()
     except rospy.ServiceException as e:
-        print("Service call failed: %s" % e)        
+        print("Service call failed: %s" % e)
 
 
 if __name__ == "__main__":
@@ -107,21 +109,21 @@ if __name__ == "__main__":
 
     clientNav(True)
     clientVision(True)
-    if visionResp.z == True:
-        clientArm(0, visionResp.x, visionResp.y , 300, 200, False)
+    if visionResp.z is True:
+        clientArm(0, visionResp.x, visionResp.y, 300, 200, False)
         timeY = visionResp.x*420
         timeZ = visionResp.y*160
         if timeY >= timeZ:
             time.sleep(timeY)
         elif timeZ >= timeY:
             time.sleep(timeZ)
-        clientArm(0, 0, 0 , 300, 200, True)
+        clientArm(0, 0, 0, 300, 200, True)
         time.sleep(15)
-        clientArm(0, 0, 0 , 300, 200, False)
+        clientArm(0, 0, 0, 300, 200, False)
         time.sleep(2)
         clientArm(0, -visionResp.x, -visionResp.y, 300, 200, False)
-   
-    clientArm(0,0.05,0,300,200,False)
+
+    clientArm(0, 0.05, 0, 300, 200, False)
 
     # clientVision(True)
     # if visionResp.z == True:
